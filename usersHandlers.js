@@ -1,5 +1,21 @@
 const database = require("./database");
 
+const postUsers = (req, res) => {
+  const { title, director, year, color, duration } = req.body;
+  database
+    .query(
+      "INSERT INTO users(id, firstname, lastname, email, city) VALUES (?, ?, ?, ?, ?)",
+      [id, firstname, lastname, email, city]
+    )
+    .then(([result]) => {
+      res.location(`/api/users/${result.insertId}`).sendStatus(201);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error saving the movie");
+    });
+};
+
 const getUsers = (req, res) => {
   database
     .query("select * from users")
@@ -33,4 +49,5 @@ const getUsersById = (req, res) => {
 module.exports = {
   getUsers,
   getUsersById,
+  postUsers, // don't forget to export your function ;)
 };
