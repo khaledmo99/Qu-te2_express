@@ -8,6 +8,8 @@ const port = process.env.APP_PORT ?? 5000;
 const welcome = (req, res) => {
   res.send("Welcome to my favourite movie list");
 };
+const { validateMovie } = require("./validators.js");
+const { validateUser } = require("./validators.js");
 
 app.get("/", welcome);
 
@@ -20,6 +22,8 @@ app.get("/api/users", usersHandlers.getUsers);
 app.get("/api/users/:id", usersHandlers.getUsersById);
 app.post("/api/movies", movieHandlers.postMovie);
 app.post("/api/users", usersHandlers.postUsers);
+app.post("/api/movies", validateMovie, movieHandlers.postMovie);
+app.post("/api/users", validateUser, movieHandlers.postUsers);
 
 app.listen(port, (err) => {
   if (err) {
